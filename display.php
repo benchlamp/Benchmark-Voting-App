@@ -25,7 +25,7 @@ $survey = strtolower(str_replace(" ", "_", $_POST["survey"]));
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
 <meta http-equiv="X-UA-Compatible" content="IE=8;FF=3;OtherUA=4" />
-  <title>Template Page</title>
+  <title>Survey- <?php echo $_POST["survey"]; ?></title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="style.css">
   </head>

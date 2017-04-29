@@ -68,7 +68,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Login Page</title>
+  <title>Login</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="style.css">
   </head>
@@ -86,7 +86,7 @@
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off"> <!-- PHP add form functionality here -->
       <div class="col-md-12">
         <div class="form-group">
-          <h3>Sign in</h3><a href="home.php">or continue as guest</a>
+          <h2>Sign in</h2><a href="home.php">or continue as guest</a>
         </div> <!-- /form-group -->
         <div class="form-group">
           <hr />

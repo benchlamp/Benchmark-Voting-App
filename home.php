@@ -47,7 +47,7 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Template Page</title>
+  <title>Home</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="style.css">
   </head>
@@ -61,12 +61,12 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
     <h4>Investigate. Participate.</h4>
   </div> <!-- /jumbotron -->
     <h5 class="login-details">logged in as <?php echo $_SESSION["userName"]; ?></h5> 
-<hr />  
+ 
 <!--content in here -->
      
  
 
-        <h3>Surveys</h3>
+        <h2>Surveys</h2>
 
 <form action='display.php' method='post'>
 <ul class="list-group">

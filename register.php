@@ -85,16 +85,28 @@
  }
 ?>
 <!DOCTYPE html>
+<meta name="robots" content="noindex">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Login & Registration System</title>
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"  />
-<link rel="stylesheet" href="style.css" type="text/css" />
-</head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Register</title>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="style.css">
+  </head>
 <body>
+  <script src="https://code.jquery.com/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
 
 <div class="container">
+  <div class="jumbotron">
+    <h1>Bench Mark</h1>
+      <hr />
+    <h4>Investigate. Participate.</h4>
+  </div> <!-- /jumbotron -->
+
+
 
  <div id="login-form">
     <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" autocomplete="off">
@@ -102,17 +114,20 @@
      <div class="col-md-12">
         
          <div class="form-group">
-             <h2 class="">Sign Up.</h2>
+             <h2 class="">Sign Up</h2>
             </div>
         
          <div class="form-group">
              <hr />
             </div>
             
+
             <?php
    if ( isset($errMSG) ) {
     
     ?>
+
+
     <div class="form-group">
              <div class="alert alert-<?php echo ($errTyp=="success") ? "success" : $errTyp; ?>">
     <span class="glyphicon glyphicon-info-sign"></span> <?php echo $errMSG; ?>
@@ -124,7 +139,7 @@
             
             <div class="form-group">
              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-user">Username</span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
              <input type="text" name="name" class="form-control" placeholder="Enter Name" maxlength="50" value="<?php echo $name ?>" />
                 </div>
                 <span class="text-danger"><?php echo $nameError; ?></span>
@@ -132,7 +147,7 @@
             
             <div class="form-group">
              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope">Email</span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-envelope"></span></span>
              <input type="email" name="email" class="form-control" placeholder="Enter Your Email" maxlength="40" value="<?php echo $email ?>" />
                 </div>
                 <span class="text-danger"><?php echo $emailError; ?></span>
@@ -140,7 +155,7 @@
             
             <div class="form-group">
              <div class="input-group">
-                <span class="input-group-addon"><span class="glyphicon glyphicon-lock">Password</span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
              <input type="password" name="pass" class="form-control" placeholder="Enter Password" maxlength="15" />
                 </div>
                 <span class="text-danger"><?php echo $passError; ?></span>
@@ -151,15 +166,12 @@
             </div>
             
             <div class="form-group">
-             <button type="submit" class="btn btn-block btn-primary" name="btn-signup">Sign Up</button>
+             <button type="submit" class="btn pull-right btn-success" name="btn-signup">Sign Up</button>
             </div>
             
-            <div class="form-group">
-             <hr />
-            </div>
             
             <div class="form-group">
-             <a href="index.php">Sign in Here...</a>
+             <a href="index.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Sign In</a>
             </div>
         
         </div>
