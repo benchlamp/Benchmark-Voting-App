@@ -1,0 +1,33 @@
+body {
+  background-color: #FEFEFA;
+}
+
+
+.container {
+  max-width: 960px;
+}    
+
+.container > .jumbotron {
+      margin-top: 5%;
+      background-color: #5cb85c;
+      color: #FEFEFA;
+    }
+    
+    .btn-success {
+      margin-right: 5px;
+    }
+
+    ul > li {
+      list-style-type: none;
+    }
+
+form > .list-group > .list-group-item {
+padding: 0;
+}
+
+.survey-link {
+  border: none;
+  height: 100%;
+  width: 100%;
+  text-align: left;
+}
