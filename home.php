@@ -3,10 +3,6 @@
  session_start();
  require_once 'dbconnect.php';
 
-$servername = "10.16.16.1";
-$username = "bench-hu1-u-109501";
-$password = "nDfMr^hnK";
-
  // select loggedin users detail
  $res=mysqli_query($conn, "SELECT * FROM users WHERE userId=".$_SESSION['user']);
  $userRow=mysqli_fetch_array($res);
@@ -24,7 +20,7 @@ $db_found = mysqli_select_db($conn, $username);
 
 
 
-$SQL = "SELECT * FROM survey_index";
+$SQL = "SELECT * FROM surveys";
 $result = mysqli_query($conn, $SQL);
 
 $surveys = array(); // create a new array
@@ -50,6 +46,15 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
   <title>Home</title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="style.css">
+<style>
+
+#create-form {
+  display: none;
+  padding-bottom: 40px;
+}
+
+</style>
+
   </head>
 <body>
   <script src="https://code.jquery.com/jquery.min.js"></script>
@@ -74,21 +79,18 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
 
 foreach ($surveys as $outer) {
 
-  foreach($outer as $key => $value) {
 
-  if ($key == "survey_name") { 
-  $value = ucwords(str_replace("_", " ", $value));
   echo "
 
 <li class='list-group-item'> 
-<input class='btn btn-default btn-block survey-link' type='submit' name='survey' value='" . $value . "'>
+<button class='btn btn-default btn-block survey-link' type='submit' name='survey' value='" . $outer["ID"] . "'>" . $outer["Question"] . "</button>
 </li>
 
                                      "
-                                      ;}
+                                      ;
 
 
-  }
+  
 } 
 
 
@@ -109,6 +111,54 @@ echo '<a href="logout.php?logout"><span class="glyphicon glyphicon-log-out"></sp
 
 }
 ?>
+
+<div id="create-form">
+    <form method="post" name="create-form" action="dbcreate.php" autocomplete="off"> <!-- PHP add form functionality here -->
+        <div class="form-group" id="survey-title">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
+            <input type="text" name="survey-title" class="form-control" value="Enter a name for your survey" onClick="this.select()" maxlength="40" />
+          </div> <!-- /input-group -->
+        </div> <!-- /form-group -->
+
+<div class="form-group" id="survey-title">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span></span>
+            <input type="text" name="opt-1" class="form-control" value="Enter the first voting option" onClick="this.select()" maxlength="40" />
+          </div> <!-- /input-group -->
+        </div> <!-- /form-group -->
+
+
+<div class="form-group" id="survey-title">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span></span>
+            <input type="text" name="opt-2" class="form-control" value="Enter the second voting option" onClick="this.select()" maxlength="40" />
+          </div> <!-- /input-group -->
+        </div> <!-- /form-group -->
+        
+        
+  <div class="anchor"></div>
+   
+<input type="submit" class="btn btn-success pull-right" id="submit" value="Submit">
+   
+           
+        
+  <div class="btn btn-default pull-right" id="add-survey">
+    Click to add more options
+  </div>       
+       
+    </form>
+  </div> <!-- /login-form -->
+
+<hr style="clear: both"/>
+
+  <div class="btn btn-primary pull-right" id="create-button">
+  Create New Survey
+  </div>
+
+
+
+
   
   </div> <!-- /container -->
 
@@ -140,6 +190,35 @@ function surveyTitle(str) {
   
   return result;
 }
+
+
+
+
+
+			var optCounter = 3;
+      var buttonState = false;
+
+      $("#create-button").click(function() {
+        if (buttonState) {
+          $("#create-form").slideUp();
+          buttonState = !buttonState;
+        } else {
+          $("#create-form").slideDown();
+          buttonState = !buttonState;  }
+      })
+      
+      
+      
+     	$("#add-survey").click(function() {
+
+        $(".anchor").append(function() {
+        
+        return     '    <div class="form-group" style="display: none"><div class="input-group"><span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span></span><input type="text" name="opt-' + optCounter + '" class="form-control" placeholder="Survey Title" value="Enter voting option ' + optCounter + '" maxlength="40" onClick="this.select()" /></div> <!-- /input-group --></div> <!-- /form-group -->'
+        
+        })
+        $(".form-group").slideDown();
+				optCounter++;
+    	})
 
 
 

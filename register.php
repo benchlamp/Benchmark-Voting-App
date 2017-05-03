@@ -101,7 +101,7 @@
 
 <div class="container">
   <div class="jumbotron">
-    <h1>Bench Mark</h1>
+    <h1>Benchmark</h1>
       <hr />
     <h4>Investigate. Participate.</h4>
   </div> <!-- /jumbotron -->

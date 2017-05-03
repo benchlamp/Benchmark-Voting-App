@@ -1,10 +1,7 @@
 <?php
 
+
 require_once 'dbconnect.php';
-
-
-
-$survey = $_GET["survey"];
 
 
 // Create connection
@@ -14,10 +11,12 @@ $db_found = mysqli_select_db($conn, $username);
 
 
 
-$SQL = "SELECT * FROM surveys";
+$SQL = "SELECT * FROM surveys WHERE ID=1";
 $result = mysqli_query($conn, $SQL);
 
-$surveys = array(); // create a new array
+
+
+$surveys= array(); // create a new array
 
 
 while ( $db_field = mysqli_fetch_assoc($result) ) {
@@ -26,9 +25,10 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
 
 }
 
-$json_data = json_encode($surveys);
- 
-echo $json_data;
+foreach($surveys as $outer) {
+  echo $outer["Question"];
+  echo "<br />";
+}
 
 
 

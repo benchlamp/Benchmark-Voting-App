@@ -12,9 +12,29 @@ if (!$userRow) {
   $_SESSION["userName"] = "Guest";
 } 
 
-$survey = strtolower(str_replace(" ", "_", $_POST["survey"]));
+$survey = $_POST["survey"];
 
 
+// Create connection
+$conn = mysqli_connect($servername, $username, $password);
+
+$db_found = mysqli_select_db($conn, $username);
+
+
+
+$SQL = "SELECT * FROM surveys WHERE Question='$survey'";
+$result = mysqli_query($conn, $SQL);
+
+$surveys = array(); // create a new array
+
+
+while ( $db_field = mysqli_fetch_assoc($result) ) {
+
+  array_push($surveys, $db_field);
+
+}
+
+$json = json_encode($surveys);
 
 ?>
 
@@ -28,13 +48,20 @@ $survey = strtolower(str_replace(" ", "_", $_POST["survey"]));
   <title>Survey- <?php echo $_POST["survey"]; ?></title>
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="style.css">
+<style>
+
+
+.chart-container {
+text-align: center;
+}
+
+</style>
   </head>
 <body>
   <script src="https://code.jquery.com/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-      <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?2.1.3"></script>
-  <script type="text/javascript" src="http://mbostock.github.com/d3/d3.geom.js?2.1.3"></script>
-  <script type="text/javascript" src="http://mbostock.github.com/d3/d3.layout.js?2.1.3"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <div class="container">
   <div class="jumbotron">
     <h1>Benchmark</h1>
@@ -42,36 +69,72 @@ $survey = strtolower(str_replace(" ", "_", $_POST["survey"]));
     <h4>Investigate. Participate.</h4>
   </div> <!-- /jumbotron -->
     <h5 class="login-details">logged in as <?php echo $_SESSION["userName"]; ?></h5> 
-<hr />  
+
   <!--content in here -->
 
-  <div class="chartContainer"></div>
-  <div><ul id="response"></ul></div>
-  
+  <h3><?php echo $_POST["survey"]; ?></h3>
+
+
+
+  <table class="table table-bordered table-responsive" id="response"></table>
+  <div class="chart-container"></div>
   </div> <!-- /container -->
   
     <script>    
-var survey = "<?php echo $survey; ?>";
-console.log("survey name = " + survey);
-  
+var survey = <?php echo $json; ?>;
+
+//console.log("var survey = " + survey);
+
+console.log(survey[0]);  
+
+
     $(document).ready(function() {
-      $.ajax({
-          type: "GET",
-          url: "dbretrieve.php",
-          data: {"survey": survey},
-          success: function(data){
-            console.log(data);
-            //$("#response").append(data);
-            data = JSON.parse(data);
-            var results = {};  
-            for (var i = 0; i < data.length; i++) {
-              //results[data[i].Type] = data[i].Votes;
-              $("#response").append("<li>" + data[i].Type + " = " + data[i].Votes + "</li>");
-            } 
+
             
-          }
-      });     
-    })
+    var w = 300,                       
+    h = 300,                          
+    r = 150,                          
+    color = d3.scale.category20c();     
+
+var vis = d3.select(".chart-container")
+        .append("svg:svg")             
+        .data([data])                  
+            .attr("width", w)           
+            .attr("height", h)
+        .append("svg:g")               
+            .attr("transform", "translate(" + r + "," + r + ")")   
+
+    var arc = d3.svg.arc()              
+        .outerRadius(r);
+
+    var pie = d3.layout.pie()          
+        .value(function(d) { return d.Votes; });    
+
+    var arcs = vis.selectAll("g.slice")     
+        .data(pie)                          
+        .enter()                           
+            .append("svg:g")                
+                .attr("class", "slice");   
+
+        arcs.append("svg:path")
+                .attr("fill", function(d, i) { return color(i); } )
+                .attr("d", arc)
+                                    
+
+        arcs.append("svg:text")                                    
+                .attr("transform", function(d) {                   
+                
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                return "translate(" + arc.centroid(d) + ")";       
+            })
+            .attr("text-anchor", "middle")                         
+            .text(function(d, i) { return data[i].Type; });      
+      
+
+          })
+  
+    
     
   </script>
   </body>
