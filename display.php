@@ -22,11 +22,10 @@ $db_found = mysqli_select_db($conn, $username);
 
 
 
-$SQL = "SELECT * FROM surveys WHERE Question='$survey'";
+$SQL = "SELECT * FROM surveys WHERE ID='$survey'";
 $result = mysqli_query($conn, $SQL);
 
 $surveys = array(); // create a new array
-
 
 while ( $db_field = mysqli_fetch_assoc($result) ) {
 
@@ -72,7 +71,7 @@ text-align: center;
 
   <!--content in here -->
 
-  <h3><?php echo $_POST["survey"]; ?></h3>
+  <h3 id="Question"></h3>
 
 
 
@@ -81,24 +80,46 @@ text-align: center;
   </div> <!-- /container -->
   
     <script>    
-var survey = <?php echo $json; ?>;
+
 
 //console.log("var survey = " + survey);
 
-console.log(survey[0]);  
+    var surveys = <?php echo $json; ?>
+
+    //console.log(surveys);
 
 
     $(document).ready(function() {
 
-            
+
+    $("#Question").append(surveys[0].Question)
+
+    var dataObj = [
+      {[surveys[0].OptionA] : surveys[0].VoteA},
+      {[surveys[0].OptionB] : surveys[0].VoteB},
+      {[surveys[0].OptionC] : surveys[0].VoteC}
+    ]
+
+    console.log(Object.keys(dataObj[0])[0])
+    console.log(dataObj[0][Object.keys(dataObj[0])])
+
+    for (var i = 0; i < dataObj.length; i++) {
+      $("#response").append(
+          "<tr><td>" + Object.keys(dataObj[i])[0] + "</td><td>" + dataObj[i][Object.keys(dataObj[i])] + "</td></tr>"
+        )
+    }
+
+
+      
     var w = 300,                       
     h = 300,                          
     r = 150,                          
     color = d3.scale.category20c();     
+    
 
-var vis = d3.select(".chart-container")
+    var vis = d3.select(".chart-container")
         .append("svg:svg")             
-        .data([data])                  
+        .data([dataObj])                  
             .attr("width", w)           
             .attr("height", h)
         .append("svg:g")               
@@ -108,7 +129,9 @@ var vis = d3.select(".chart-container")
         .outerRadius(r);
 
     var pie = d3.layout.pie()          
-        .value(function(d) { return d.Votes; });    
+        .value(function(d) { 
+          return d[Object.keys(d)]; 
+        });    
 
     var arcs = vis.selectAll("g.slice")     
         .data(pie)                          
@@ -129,7 +152,9 @@ var vis = d3.select(".chart-container")
                 return "translate(" + arc.centroid(d) + ")";       
             })
             .attr("text-anchor", "middle")                         
-            .text(function(d, i) { return data[i].Type; });      
+            .text(function(d, i) { 
+              return Object.keys(d.data); 
+            });      
       
 
           })
