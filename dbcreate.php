@@ -11,31 +11,34 @@ foreach($_POST as $key => $val) {
 }
 
 
-
 // Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
- // Check connection
- if ($conn->connect_error) {
-     die("Connection failed: " . $conn->connect_error);
-} 
-
-
-
-$tablename = "subsurv_" . $_POST["survey-title"];
-
-
-$sql = "CREATE TABLE "$tablename" (
-id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-first_name VARCHAR(30) NOT NULL,
-email VARCHAR(70) NOT NULL UNIQUE
-)";
-
-if ($conn->query($sql) === TRUE) {
-    echo "Table MyGuests created successfully";
-} else {
-    echo "Error creating table: " . $conn->error;
+$conn = mysqli_connect($servername, $username, $password, $username);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
 }
 
-$conn->close();
+
+$Question = $_POST["survey-title"];
+$Opt1 = $_POST["opt-1"];
+$Opt2 = $_POST["opt-2"];
+$Opt3 = $_POST["opt-3"];
+
+
+
+$sql = "INSERT INTO surveys (Question, OptionA, OptionB, OptionC)
+VALUES ('$Question', '$Opt1', '$Opt2', '$Opt3')";
+
+
+
+if (mysqli_query($conn, $sql)) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+}
+
+mysqli_close($conn);
+
+
 
 ?>

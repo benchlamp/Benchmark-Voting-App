@@ -53,6 +53,10 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
   padding-bottom: 40px;
 }
 
+#create-button {
+  margin: 5px 0 15px 0;
+}
+
 </style>
 
   </head>
@@ -66,7 +70,7 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
     <h4>Investigate. Participate.</h4>
   </div> <!-- /jumbotron -->
     <h5 class="login-details">logged in as <?php echo $_SESSION["userName"]; ?></h5> 
- 
+ <hr />
 <!--content in here -->
      
  
@@ -79,18 +83,10 @@ while ( $db_field = mysqli_fetch_assoc($result) ) {
 
 foreach ($surveys as $outer) {
 
-
-  echo "
-
-<li class='list-group-item'> 
-<button class='btn btn-default btn-block survey-link' type='submit' name='survey' value='" . $outer["ID"] . "'>" . $outer["Question"] . "</button>
-</li>
-
-                                     "
-                                      ;
-
-
-  
+    echo "<li class='list-group-item'> 
+  <button class='btn btn-default btn-block survey-link' type='submit' name='survey' value='" . $outer["ID"] . "'>" . $outer["Question"] . "</button>
+  </li>";
+ 
 } 
 
 
@@ -101,19 +97,13 @@ foreach ($surveys as $outer) {
 
 
         
-<?php if ($_SESSION["userName"] == "Guest") {
 
-echo "<p>Please sign in to create new surveys</p>";
-echo '<a href="index.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Sign In</a>';
 
-} else {
-echo '<a href="logout.php?logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a>';
 
-}
-?>
 
 <div id="create-form">
     <form method="post" name="create-form" action="dbcreate.php" autocomplete="off"> <!-- PHP add form functionality here -->
+    <hr style="clear: both"/>
         <div class="form-group" id="survey-title">
           <div class="input-group">
             <span class="input-group-addon"><span class="glyphicon glyphicon-tag"></span></span>
@@ -135,29 +125,41 @@ echo '<a href="logout.php?logout"><span class="glyphicon glyphicon-log-out"></sp
             <input type="text" name="opt-2" class="form-control" value="Enter the second voting option" onClick="this.select()" maxlength="40" />
           </div> <!-- /input-group -->
         </div> <!-- /form-group -->
+
+ 
+<div class="form-group" id="survey-title">
+          <div class="input-group">
+            <span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span></span>
+            <input type="text" name="opt-3" class="form-control" value="Enter the third voting option" onClick="this.select()" maxlength="40" />
+          </div> <!-- /input-group -->
+        </div> <!-- /form-group -->        
         
-        
-  <div class="anchor"></div>
    
 <input type="submit" class="btn btn-success pull-right" id="submit" value="Submit">
    
            
-        
-  <div class="btn btn-default pull-right" id="add-survey">
-    Click to add more options
-  </div>       
+           
        
     </form>
   </div> <!-- /login-form -->
 
-<hr style="clear: both"/>
+
 
   <div class="btn btn-primary pull-right" id="create-button">
   Create New Survey
   </div>
 
+<hr style="clear: both"/>
+<?php if ($_SESSION["userName"] == "Guest") {
 
+echo "<p>Please sign in to create new surveys</p>";
+echo '<a href="index.php"><span class="glyphicon glyphicon-log-in"></span>&nbsp;Sign In</a>';
 
+} else {
+echo '<a href="logout.php?logout"><span class="glyphicon glyphicon-log-out"></span>&nbsp;Sign Out</a>';
+
+}
+?>
 
   
   </div> <!-- /container -->
@@ -208,20 +210,7 @@ function surveyTitle(str) {
       })
       
       
-      
-     	$("#add-survey").click(function() {
-
-        $(".anchor").append(function() {
-        
-        return     '    <div class="form-group" style="display: none"><div class="input-group"><span class="input-group-addon"><span class="glyphicon glyphicon-question-sign"></span></span><input type="text" name="opt-' + optCounter + '" class="form-control" placeholder="Survey Title" value="Enter voting option ' + optCounter + '" maxlength="40" onClick="this.select()" /></div> <!-- /input-group --></div> <!-- /form-group -->'
-        
-        })
-        $(".form-group").slideDown();
-				optCounter++;
-    	})
-
-
-
+  
 })
 
 
